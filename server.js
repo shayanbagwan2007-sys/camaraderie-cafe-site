@@ -46,7 +46,31 @@ app.get('/api/reservations', requireAuth, (req, res) => {
     res.json(reservations);
 });
 
-// --- NEW HOME ROUTE ADDED HERE ---
+// --- NEW ROUTE: Delete individual reservation by ID (Secured) ---
+app.delete('/api/reservations/:id', requireAuth, (req, res) => {
+    const targetId = req.params.id;
+    let reservations = readReservations();
+    
+    const initialLength = reservations.length;
+    reservations = reservations.filter(resObj => resObj.id !== targetId);
+
+    if (reservations.length < initialLength) {
+        writeReservations(reservations);
+        console.log(`[Admin Action] Deleted reservation ID: ${targetId}`);
+        return res.status(200).json({ message: 'Reservation successfully deleted.' });
+    } else {
+        return res.status(404).json({ error: 'Reservation not found.' });
+    }
+});
+
+// --- NEW ROUTE: Clear all reservations (Secured) ---
+app.post('/api/reservations/clear-all', requireAuth, (req, res) => {
+    writeReservations([]);
+    console.log("[Admin Action] Wiped all reservation records.");
+    return res.status(200).json({ message: 'All reservations cleared successfully.' });
+});
+
+// --- HOME ROUTE ---
 // Explicitly serve your index.html file when someone visits the main URL '/'
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
