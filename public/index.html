@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camaraderie Lounge & Kitchen | Vaishali Nagar, Jaipur</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        tealDark: '#083330',
+                        tealLight: '#114D48',
+                        goldWarm: '#D4AF37',
+                        goldHover: '#C59E2E',
+                        wisteria: '#B07D97',
+                        charcoal: '#1A2421',
+                        cream: '#FBFBF9'
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html { scroll-behavior: smooth; }
+        /* Subtle Scroll Reveal CSS */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-cream font-sans text-charcoal antialiased">
+
+    <!-- Top Info Bar -->
+    <div class="bg-tealDark text-stone-300 text-xs py-2 px-4 border-b border-tealLight/50 hidden md:block">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex gap-4">
+                <span><i class="fa-solid fa-map-pin text-goldWarm mr-1.5"></i> Vaishali Nagar, Jaipur</span>
+                <span><i class="fa-solid fa-phone text-goldWarm mr-1.5"></i> 080944 44497</span>
+                <span><i class="fa-solid fa-clock text-goldWarm mr-1.5"></i> Open Daily: 11:00 AM – 11:30 PM</span>
+            </div>
+            <div class="flex gap-4 items-center">
+                <span class="text-stone-400">Price Range: ₹200–1,000 per person</span>
+                <span class="h-3 w-[1px] bg-tealLight"></span>
+                <span class="px-2 py-0.5 rounded bg-tealLight/60 text-[10px] text-white">Pet-Friendly</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="sticky top-0 z-50 bg-tealDark/95 backdrop-blur-md shadow-md border-b border-tealLight/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0">
+                    <a href="#" class="flex flex-col">
+                        <span class="font-serif text-2xl font-bold tracking-wider text-goldWarm">CAMARADERIE</span>
+                        <span class="text-[9px] uppercase tracking-[0.25em] text-stone-300 -mt-1">Lounge & Kitchen</span>
+                    </a>
+                </div>
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#" class="text-stone-200 hover:text-goldWarm transition-colors font-medium text-sm">Home</a>
+                    <a href="#about" class="text-stone-200 hover:text-goldWarm transition-colors font-medium text-sm">Our Vibe</a>
+                    <a href="#menu" class="text-stone-200 hover:text-goldWarm transition-colors font-medium text-sm">Menu</a>
+                    <a href="#gallery" class="text-stone-200 hover:text-goldWarm transition-colors font-medium text-sm">Gallery</a>
+                    <a href="#booking" class="text-stone-200 hover:text-goldWarm transition-colors font-medium text-sm">Book Table</a>
+                    <a href="https://order.tmbill.com" target="_blank" class="bg-goldWarm text-tealDark font-semibold px-5 py-2.5 rounded-full shadow hover:bg-goldHover hover:scale-[1.02] transition-all text-sm">
+                        Order Online <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i>
+                    </a>
+                </nav>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-stone-300 hover:text-goldWarm focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="hidden md:hidden bg-tealDark border-t border-tealLight" id="mobile-menu">
+            <div class="px-2 pt-2 pb-4 space-y-1 sm:px-3">
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-stone-200 hover:bg-tealLight hover:text-goldWarm">Home</a>
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-stone-200 hover:bg-tealLight hover:text-goldWarm">Our Vibe</a>
+                <a href="#menu" class="block px-3 py-2 rounded-md text-base font-medium text-stone-200 hover:bg-tealLight hover:text-goldWarm">Menu</a>
+                <a href="#gallery" class="block px-3 py-2 rounded-md text-base font-medium text-stone-200 hover:bg-tealLight hover:text-goldWarm">Gallery</a>
+                <a href="#booking" class="block px-3 py-2 rounded-md text-base font-medium text-stone-200 hover:bg-tealLight hover:text-goldWarm">Book Table</a>
+                <a href="https://order.tmbill.com" target="_blank" class="block w-full text-center mt-4 bg-goldWarm text-tealDark font-semibold px-4 py-3 rounded-md shadow">
+                    Order Online
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-tealDark text-white py-16 md:py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-6 space-y-6">
+                <span class="inline-block bg-tealLight border border-goldWarm/30 rounded-full px-4 py-1 text-xs font-semibold tracking-wider text-goldWarm">
+                    ALL-DAY RESTO-LOUNGE & GARDEN
+                </span>
+                <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+                    Where Cozy Indoors Meets <span class="text-goldWarm italic">Open Garden Bliss</span>
+                </h1>
+                <p class="text-stone-300 text-lg">
+                    Unwind inside our deep-teal, air-conditioned lounge, or sit under the gorgeous wisteria canopy in our spacious pet-friendly garden. 
+                </p>
+                <div class="flex flex-wrap gap-4 pt-2">
+                    <a href="#booking" class="bg-goldWarm text-tealDark font-bold px-8 py-3.5 rounded-full shadow-lg hover:bg-goldHover transition-all text-center min-w-[170px]">
+                        Book A Table
+                    </a>
+                    <a href="https://order.tmbill.com" target="_blank" class="bg-transparent border border-stone-400 hover:border-goldWarm text-stone-200 hover:text-goldWarm font-semibold px-8 py-3.5 rounded-full transition-all text-center min-w-[170px]">
+                        Explore Menu
+                    </a>
+                </div>
+            </div>
+            <!-- Showcase using Photo 1 (Garden Path) -->
+            <div class="lg:col-span-6">
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-tealLight">
+                    <img src="images/garden_path.jpg" alt="Camaraderie Garden Entrance" class="w-full h-[400px] object-cover">
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
+                        <p class="text-goldWarm font-bold text-sm">The Garden Walkway</p>
+                        <p class="text-xs text-stone-200">A view of our lush green pathways and outdoor seating spaces.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="reveal py-20 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Left Details -->
+                <div class="space-y-6">
+                    <span class="text-goldWarm uppercase tracking-widest font-semibold text-sm">About Us</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-tealDark">A Vibrant Spot For Every Mood</h2>
+                    <p class="text-stone-600 leading-relaxed">
+                        Camaraderie Lounge & Kitchen offers a dual-concept dining experience in Vaishali Nagar, Jaipur. Choose between our high-energy, air-conditioned indoor lounge featuring deep teal walls and plush, warm-lit seating, or enjoy the fresh air of our green garden patio.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 text-sm text-stone-700">
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-goldWarm"></i> All you can eat</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-goldWarm"></i> Happy-hour food</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-goldWarm"></i> Vegan options</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-goldWarm"></i> Pet-friendly garden</div>
+                    </div>
+                </div>
+                <!-- Right Showcase using Photo 3 (Teal Lounge) -->
+                <div>
+                    <img src="images/teal_lounge.jpg" alt="Indoor Teal Lounge" class="rounded-2xl shadow-lg w-full h-[350px] object-cover border border-stone-200">
+                    <p class="text-xs text-stone-500 mt-2 text-center">Our premium indoor space, custom-built for cozy gatherings.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ <!-- Beautiful Visual Menu Section -->
+    <section id="menu" class="reveal py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-2">
+                <span class="text-goldWarm uppercase tracking-widest font-semibold text-sm">Our Specialties</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-tealDark">Explore the Menu</h2>
+                <p class="text-stone-500 text-sm">Browse our signature selections and place an order directly online.</p>
+            </div>
+
+            <!-- Menu Category Filter Tabs -->
+            <div class="flex flex-wrap justify-center gap-2 mb-12">
+                <button onclick="filterMenu('all')" id="tab-all" class="menu-tab px-6 py-2.5 rounded-full text-sm font-semibold transition-all bg-tealDark text-goldWarm">
+                    Show All
+                </button>
+                <button onclick="filterMenu('starters')" id="tab-starters" class="menu-tab px-6 py-2.5 rounded-full text-sm font-semibold transition-all bg-stone-100 text-stone-600 hover:bg-stone-200">
+                    Starters & Fusion
+                </button>
+                <button onclick="filterMenu('pizza')" id="tab-pizza" class="menu-tab px-6 py-2.5 rounded-full text-sm font-semibold transition-all bg-stone-100 text-stone-600 hover:bg-stone-200">
+                    Pizzas & Mains
+                </button>
+                <button onclick="filterMenu('drinks')" id="tab-drinks" class="menu-tab px-6 py-2.5 rounded-full text-sm font-semibold transition-all bg-stone-100 text-stone-600 hover:bg-stone-200">
+                    Signature Drinks
+                </button>
+            </div>
+
+            <!-- Menu Items Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Item 1 (Starter) -->
+                <div class="menu-item starters bg-stone-50 rounded-2xl overflow-hidden border border-stone-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <img src="images/noodles_basket.jpg" alt="Signature Spicy Noodles" class="w-full h-48 object-cover">
+                        <div class="p-6 space-y-2">
+                            <span class="text-[10px] uppercase bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded font-bold">Veg • Fusion</span>
+                            <h3 class="font-serif font-bold text-lg text-tealDark">Noodles in Papad Basket</h3>
+                            <p class="text-xs text-stone-500">Spicy, wok-tossed Schezwan noodles served inside an edible, crispy papad bowl.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-stone-100/50 border-t border-stone-200/50 flex justify-between items-center">
+                        <span class="font-bold text-tealDark">₹299</span>
+                        <a href="https://order.tmbill.com" target="_blank" class="bg-tealDark text-goldWarm hover:bg-tealLight hover:text-white px-4 py-1.5 rounded-full text-xs font-semibold transition-all">Order Now</a>
+                    </div>
+                </div>
+
+                <!-- Item 2 (Starter) -->
+                <div class="menu-item starters bg-stone-50 rounded-2xl overflow-hidden border border-stone-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <!-- Highlighting Photo 2 context for appetizers -->
+                        <img src="images/starter.jpg" alt="Crispy Fusion Shots" class="w-full h-48 object-cover">
+                        <div class="p-6 space-y-2">
+                            <span class="text-[10px] uppercase bg-amber-100 text-amber-800 px-2.5 py-1 rounded font-bold">Best Seller</span>
+                            <h3 class="font-serif font-bold text-lg text-tealDark">Crispy Fusion Shots</h3>
+                            <p class="text-xs text-stone-500">Savory, crunchy appetizer skewers stacked in shot glasses with sweet-spicy dipping sauce.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-stone-100/50 border-t border-stone-200/50 flex justify-between items-center">
+                        <span class="font-bold text-tealDark">₹279</span>
+                        <a href="https://order.tmbill.com" target="_blank" class="bg-tealDark text-goldWarm hover:bg-tealLight hover:text-white px-4 py-1.5 rounded-full text-xs font-semibold transition-all">Order Now</a>
+                    </div>
+                </div>
+
+                <!-- Item 3 (Pizza) -->
+                <div class="menu-item pizza bg-stone-50 rounded-2xl overflow-hidden border border-stone-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <img src="images/pizza_mocktail.jpg" alt="Veggie Pizza" class="w-full h-48 object-cover">
+                        <div class="p-6 space-y-2">
+                            <span class="text-[10px] uppercase bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded font-bold">Veg • Woodfired</span>
+                            <h3 class="font-serif font-bold text-lg text-tealDark">Signature Garden Pizza</h3>
+                            <p class="text-xs text-stone-500">Fresh thin-crust dough loaded with bell peppers, red onions, jalapeños, olives, and fresh mozzarella.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-stone-100/50 border-t border-stone-200/50 flex justify-between items-center">
+                        <span class="font-bold text-tealDark">₹349</span>
+                        <a href="https://order.tmbill.com" target="_blank" class="bg-tealDark text-goldWarm hover:bg-tealLight hover:text-white px-4 py-1.5 rounded-full text-xs font-semibold transition-all">Order Now</a>
+                    </div>
+                </div>
+
+                <!-- Item 4 (Drink) -->
+                <div class="menu-item drinks bg-stone-50 rounded-2xl overflow-hidden border border-stone-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <!-- Mocktail/Drink Visual -->
+                        <img src="images/mocktails.jpg" alt="Emerald Wisteria Cooler" class="w-full h-48 object-cover">
+                        <div class="p-6 space-y-2">
+                            <span class="text-[10px] uppercase bg-blue-100 text-blue-800 px-2.5 py-1 rounded font-bold">Refreshing</span>
+                            <h3 class="font-serif font-bold text-lg text-tealDark">Emerald Cooler</h3>
+                            <p class="text-xs text-stone-500">A cold-pressed botanical mocktail combining green apple, mint, tonic water, and fresh red apple slices.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-stone-100/50 border-t border-stone-200/50 flex justify-between items-center">
+                        <span class="font-bold text-tealDark">₹189</span>
+                        <a href="https://order.tmbill.com" target="_blank" class="bg-tealDark text-goldWarm hover:bg-tealLight hover:text-white px-4 py-1.5 rounded-full text-xs font-semibold transition-all">Order Now</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Central Button -->
+            <div class="mt-16 text-center">
+                <a href="https://order.tmbill.com" target="_blank" class="inline-flex items-center gap-2 bg-tealDark text-goldWarm hover:text-white hover:bg-tealLight font-bold px-8 py-4 rounded-full shadow-md transition-all">
+                    <span>Explore Full Interactive TMBill Menu</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visual Gallery Section (All remaining photos) -->
+    <section id="gallery" class="reveal py-20 bg-stone-50 border-t border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-2">
+                <span class="text-goldWarm uppercase tracking-widest font-semibold text-sm">Gallery</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-tealDark">Explore the Space</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 (Photo 4: Wisteria Canopy) -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-stone-200">
+                    <img src="images/wisteria_canopy.jpg" alt="Wisteria Canopy" class="w-full h-40 object-cover rounded-lg mb-2">
+                    <h4 class="font-bold text-sm text-tealDark">Wisteria Canopy</h4>
+                    <p class="text-[11px] text-stone-500">Floral outdoor dining space with hanging pink blossoms.</p>
+                </div>
+                <!-- Card 2 (Photo 6: Indoor Dining) -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-stone-200">
+                    <img src="images/indoor_dining.jpg" alt="Indoor Dining Area" class="w-full h-40 object-cover rounded-lg mb-2">
+                    <h4 class="font-bold text-sm text-tealDark">Spacious Lounge Area</h4>
+                    <p class="text-[11px] text-stone-500">Plush velvet sofas and warm atmospheric lighting.</p>
+                </div>
+                <!-- Card 3 (Photo 7: Outdoor Dining) -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-stone-200">
+                    <img src="images/outdoor_dining.jpg" alt="Outdoor Gravel Dining" class="w-full h-40 object-cover rounded-lg mb-2">
+                    <h4 class="font-bold text-sm text-tealDark">Garden Dining Area</h4>
+                    <p class="text-[11px] text-stone-500">Gravel-laid garden dining area under starry lights.</p>
+                </div>
+                <!-- Card 4 (Photo 1: Alternative perspective of pathway) -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-stone-200">
+                    <img src="images/garden_path.jpg" alt="Palm Path" class="w-full h-40 object-cover rounded-lg mb-2">
+                    <h4 class="font-bold text-sm text-tealDark">Palm Tree Walkway</h4>
+                    <p class="text-[11px] text-stone-500">Perfect entry transition into the garden.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation Form & Map -->
+    <section id="booking" class="py-20 bg-tealDark text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Booking details -->
+                <div class="space-y-6">
+                    <span class="text-goldWarm uppercase tracking-widest font-semibold text-sm">Reservations</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold">Book a Table or Request a Party</h2>
+                    <p class="text-stone-300">
+                        Planning an event? We host private gatherings like birthdays, anniversaries, corporate get-togethers, and kitty parties in both our indoor lounge and outdoor garden zones.
+                    </p>
+                    <div class="space-y-4 pt-4 border-t border-tealLight/60 text-sm">
+                        <p><i class="fa-solid fa-phone text-goldWarm mr-2"></i> Direct Call: 080944 44497</p>
+                        <p><i class="fa-solid fa-location-dot text-goldWarm mr-2"></i> Gandhi Path Rd, B Block, Vaishali Nagar, Jaipur</p>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="bg-white text-charcoal p-8 rounded-2xl shadow-xl relative">
+                    <h3 class="font-serif text-xl font-bold text-tealDark mb-4">Book Your Table</h3>
+                    <form id="booking-form" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-stone-600 mb-1">Name</label>
+                            <input type="text" id="name" required class="w-full border rounded-lg px-4 py-2 text-sm bg-stone-50" placeholder="Your Name">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-stone-600 mb-1">Phone Number</label>
+                                <input type="tel" id="phone" required class="w-full border rounded-lg px-4 py-2 text-sm bg-stone-50" placeholder="Mobile Number">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-stone-600 mb-1">Event Type</label>
+                                <select id="event_type" class="w-full border rounded-lg px-4 py-2 text-sm bg-stone-50">
+                                    <option>Standard Dining</option>
+                                    <option>Birthday Party</option>
+                                    <option>Anniversary Celebration</option>
+                                    <option>Corporate Party</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-stone-600 mb-1">Date</label>
+                                <input type="date" id="date" required class="w-full border rounded-lg px-4 py-2 text-sm bg-stone-50">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-stone-600 mb-1">Number of Guests</label>
+                                <input type="number" id="guests" min="1" required class="w-full border rounded-lg px-4 py-2 text-sm bg-stone-50" placeholder="2">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-goldWarm text-tealDark hover:bg-goldHover font-bold py-3 rounded-lg text-xs uppercase tracking-wider transition-colors">
+                            Submit Reservation Request
+                        </button>
+                    </form>
+
+                    <!-- Alert message container -->
+                    <div id="booking-alert" class="hidden mt-4 p-4 rounded-lg text-sm text-center"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Footer Section with Social Icons -->
+    <footer class="bg-stone-100 py-12 border-t border-stone-200 text-center text-stone-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            
+            <!-- Social Media Icons -->
+            <div class="flex justify-center gap-6">
+                <!-- Facebook Icon -->
+                <a href="https://www.facebook.com" target="_blank" aria-label="Facebook" class="w-10 h-10 rounded-full bg-white text-stone-600 hover:bg-tealDark hover:text-goldWarm flex items-center justify-center border border-stone-200 shadow-sm transition-all hover:scale-105">
+                    <i class="fa-brands fa-facebook-f text-lg"></i>
+                </a>
+                
+                <!-- Instagram Icon -->
+                <a href="https://www.instagram.com" target="_blank" aria-label="Instagram" class="w-10 h-10 rounded-full bg-white text-stone-600 hover:bg-tealDark hover:text-goldWarm flex items-center justify-center border border-stone-200 shadow-sm transition-all hover:scale-105">
+                    <i class="fa-brands fa-instagram text-lg"></i>
+                </a>
+            </div>
+
+            <!-- Copyright & Brand Details -->
+            <div class="space-y-2 text-xs">
+                <p class="font-serif font-bold text-tealDark tracking-wider text-sm">CAMARADERIE LOUNGE & KITCHEN</p>
+                <p>&copy; 2026 Camaraderie Lounge & Kitchen. All rights reserved.</p>
+            </div>
+            
+        </div>
+    </footer>
+
+    <!-- Interactivity -->
+    <script>
+        // Toggle mobile menu
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        // Handle AJAX Reservation Request
+        const bookingForm = document.getElementById('booking-form');
+        const alertBox = document.getElementById('booking-alert');
+
+        bookingForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const payload = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                event_type: document.getElementById('event_type').value,
+                date: document.getElementById('date').value,
+                guests: parseInt(document.getElementById('guests').value, 10)
+            };
+
+            try {
+                const response = await fetch('/api/reservations', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                
+                alertBox.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-green-100', 'text-green-800');
+                if (response.ok) {
+                    alertBox.classList.add('bg-green-100', 'text-green-800');
+                    alertBox.innerText = `Success! Reservation requested for ${data.reservation.name}. We will call you soon.`;
+                    bookingForm.reset();
+                } else {
+                    alertBox.classList.add('bg-red-100', 'text-red-800');
+                    alertBox.innerText = `Error: ${data.error || 'Could not complete reservation.'}`;
+                }
+            } catch (err) {
+                alertBox.classList.remove('hidden', 'bg-green-100', 'text-green-800');
+                alertBox.classList.add('bg-red-100', 'text-red-800');
+                alertBox.innerText = 'Unable to connect to server. Please try again later.';
+            }
+        });
+
+    // Menu Categories Filtering
+function filterMenu(category) {
+    const items = document.querySelectorAll('.menu-item');
+    const tabs = document.querySelectorAll('.menu-tab');
+
+    // Reset all tabs styling
+    tabs.forEach(tab => {
+        tab.classList.remove('bg-tealDark', 'text-goldWarm');
+        tab.classList.add('bg-stone-100', 'text-stone-600', 'hover:bg-stone-200');
+    });
+
+    // Highlight active tab
+    const activeTab = document.getElementById(`tab-${category}`);
+    if (activeTab) {
+        activeTab.classList.remove('bg-stone-100', 'text-stone-600', 'hover:bg-stone-200');
+        activeTab.classList.add('bg-tealDark', 'text-goldWarm');
+    }
+
+    // Show/Hide items
+    items.forEach(item => {
+        if (category === 'all' || item.classList.contains(category)) {
+            item.style.display = 'flex'; // show
+        } else {
+            item.style.display = 'none'; // hide
+        }
+    });
+}
+
+// High-Performance Scroll Reveal
+        document.addEventListener("DOMContentLoaded", () => {
+            const revealElements = document.querySelectorAll('.reveal');
+
+            const observerOptions = {
+                root: null, // viewport
+                threshold: 0.10, // triggers when 10% of the element is visible
+                rootMargin: "0px 0px -50px 0px" // triggers slightly before entering the screen
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, observerOptions);
+
+            revealElements.forEach(el => observer.observe(el));
+        });
+
+
+    </script>
+   
+</body>
+</html>

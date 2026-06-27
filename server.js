@@ -1,0 +1,109 @@
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const cors = require('cors');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const DATA_FILE = path.join(__dirname, 'reservations.json');
+
+// --- ADMIN CREDENTIALS ---
+// Tell the cafe owner to use these credentials to log in. They can change them below.
+const ADMIN_USERNAME = 'admin';
+const ADMIN_PASSWORD = 'camaraderie2026'; 
+
+// Simple custom Basic Authentication middleware
+const requireAuth = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        res.setHeader('WWW-Authenticate', 'Basic realm="Secure Admin Dashboard"');
+        return res.status(401).send('Authentication required.');
+    }
+
+    const auth = Buffer.from(authHeader.split(' ')[1], 'base64').toString().split(':');
+    const user = auth[0];
+    const pass = auth[1];
+
+    if (user === ADMIN_USERNAME && pass === ADMIN_PASSWORD) {
+        return next();
+    }
+
+    res.setHeader('WWW-Authenticate', 'Basic realm="Secure Admin Dashboard"');
+    return res.status(401).send('Invalid username or password.');
+};
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// 1. Secure the admin page and reservations API using the requireAuth middleware
+app.get('/admin.html', requireAuth, (req, res, next) => {
+    next(); // Pass control to static file server if logged in
+});
+
+app.get('/api/reservations', requireAuth, (req, res) => {
+    const reservations = readReservations();
+    res.json(reservations);
+});
+
+// --- NEW HOME ROUTE ADDED HERE ---
+// Explicitly serve your index.html file when someone visits the main URL '/'
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// 2. Serve public folder files normally (unsecured) for regular visitors
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Helper to read reservations
+const readReservations = () => {
+    try {
+        if (!fs.existsSync(DATA_FILE)) return [];
+        const data = fs.readFileSync(DATA_FILE, 'utf8');
+        return JSON.parse(data || '[]');
+    } catch (err) {
+        console.error("Error reading reservations file:", err);
+        return [];
+    }
+};
+
+// Helper to write reservations
+const writeReservations = (data) => {
+    try {
+        fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
+    } catch (err) {
+        console.error("Error writing reservations file:", err);
+    }
+};
+
+// Route: Receive Reservation Form Submissions (Public)
+app.post('/api/reservations', (req, res) => {
+    const { name, phone, event_type, date, guests } = req.body;
+
+    if (!name || !phone || !date || !guests) {
+        return res.status(400).json({ error: 'Please fill in all required fields.' });
+    }
+
+    const newReservation = {
+        id: Date.now().toString(),
+        name,
+        phone,
+        event_type: event_type || 'Standard Dining',
+        date,
+        guests,
+        createdAt: new Date().toISOString()
+    };
+
+    const reservations = readReservations();
+    reservations.push(newReservation);
+    writeReservations(reservations);
+
+    return res.status(201).json({ 
+        message: 'Reservation submitted successfully!', 
+        reservation: newReservation 
+    });
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
