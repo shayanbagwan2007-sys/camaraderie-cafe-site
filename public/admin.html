@@ -34,7 +34,6 @@
                 <p class="text-xs uppercase tracking-widest text-stone-300">Reservation Manager Panel</p>
             </div>
             <div class="flex gap-2">
-                <!-- NEW: Clear All Button -->
                 <button onclick="clearAllReservations()" class="bg-red-950/20 border border-red-500/30 hover:bg-red-600 hover:text-white text-red-400 font-semibold px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-2">
                     <i class="fa-solid fa-trash-can"></i> Clear All Data
                 </button>
@@ -63,12 +62,10 @@
                             <th class="py-4 px-6 font-bold">Event Type</th>
                             <th class="py-4 px-6 font-bold">Guests</th>
                             <th class="py-4 px-6 font-bold">Status</th>
-                            <!-- NEW: Action Header -->
                             <th class="py-4 px-6 font-bold text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="reservations-list">
-                        <!-- Dynamic rows will be inserted here -->
                         <tr>
                             <td colspan="7" class="text-center py-12 text-stone-400">Loading reservations...</td>
                         </tr>
@@ -101,13 +98,10 @@
                     return;
                 }
 
-                // Sort reservations by date (nearest first)
                 data.sort((a, b) => new Date(a.date) - new Date(b.date));
 
                 listContainer.innerHTML = data.map(res => {
-                    // Match unique identifier key (database usually uses id or _id)
                     const reservationId = res.id || res._id;
-
                     return `
                         <tr class="border-b border-stone-100 hover:bg-stone-50/50 transition-colors">
                             <td class="py-4 px-6 font-semibold text-tealDark">${escapeHtml(res.name)}</td>
@@ -128,7 +122,6 @@
                                     <span class="h-2 w-2 rounded-full bg-emerald-500"></span> Received
                                 </span>
                             </td>
-                            <!-- NEW: Action buttons cell -->
                             <td class="py-4 px-6 text-right">
                                 <button onclick="deleteReservation('${reservationId}')" class="text-red-500 hover:text-red-700 transition-colors inline-flex items-center gap-1 font-semibold text-xs">
                                     <i class="fa-solid fa-trash-can"></i> Cancel / Delete
@@ -149,83 +142,64 @@
             }
         }
 
-        // NEW: Function to delete a single reservation
         async function deleteReservation(id) {
-            if (!confirm("Are you sure you want to cancel and delete this reservation?")) {
-                return;
-            }
+            if (!confirm("Are you sure you want to cancel and delete this reservation?")) return;
 
             try {
-                const response = await fetch(`/api/reservations/${id}`, {
-                    method: 'DELETE'
-                });
-
+                const response = await fetch(`/api/reservations/${id}`, { method: 'DELETE' });
                 if (response.ok) {
                     alert("Reservation successfully deleted.");
-                    fetchReservations(); // Refresh table
+                    fetchReservations();
                 } else {
                     const errResult = await response.json();
                     alert(`Error: ${errResult.message || 'Failed to delete record.'}`);
                 }
             } catch (error) {
-                console.error("Network error deleting reservation:", error);
+                console.error("Network error:", error);
                 alert("Network error: Could not reach the server.");
             }
         }
 
-        // NEW: Function to clear all reservations
         async function clearAllReservations() {
             const doubleCheck = prompt("Warning: This will permanently delete ALL active bookings.\nType DELETE to confirm:");
-            
             if (doubleCheck !== "DELETE") {
                 alert("Action cancelled.");
                 return;
             }
 
             try {
-                const response = await fetch('/api/reservations/clear-all', {
-                    method: 'POST'
-                });
-
+                const response = await fetch('/api/reservations/clear-all', { method: 'POST' });
                 if (response.ok) {
                     alert("All reservation data has been wiped.");
-                    fetchReservations(); // Refresh table
+                    fetchReservations();
                 } else {
                     const errResult = await response.json();
                     alert(`Error: ${errResult.message || 'Failed to clear database.'}`);
                 }
             } catch (error) {
-                console.error("Network error clearing database:", error);
+                console.error("Network error:", error);
                 alert("Network error: Could not reach the server.");
             }
         }
 
-        // Helper: Formatting Dates nicely
         function formatDate(dateStr) {
             const options = { year: 'numeric', month: 'short', day: 'numeric' };
             return new Date(dateStr).toLocaleDateString('en-US', options);
         }
 
-        // Helper: Style different event tags
         function getBadgeStyle(type) {
             switch(type) {
-                case 'Birthday Party':
-                    return 'bg-pink-100 text-pink-800';
-                case 'Anniversary Celebration':
-                    return 'bg-amber-100 text-amber-800';
-                case 'Corporate Party':
-                    return 'bg-blue-100 text-blue-800';
-                default:
-                    return 'bg-stone-100 text-stone-800';
+                case 'Birthday Party': return 'bg-pink-100 text-pink-800';
+                case 'Anniversary Celebration': return 'bg-amber-100 text-amber-800';
+                case 'Corporate Party': return 'bg-blue-100 text-blue-800';
+                default: return 'bg-stone-100 text-stone-800';
             }
         }
 
-        // Helper: Security escape
         function escapeHtml(string) {
             return String(string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
 
-        // Initial fetch on page load
         window.onload = fetchReservations;
     </script>
 </body>
