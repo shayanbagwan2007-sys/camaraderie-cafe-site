@@ -33,9 +33,15 @@
                 <h1 class="font-serif text-2xl font-bold tracking-wider text-goldWarm">CAMARADERIE</h1>
                 <p class="text-xs uppercase tracking-widest text-stone-300">Reservation Manager Panel</p>
             </div>
-            <button onclick="fetchReservations()" class="bg-tealLight border border-goldWarm/30 hover:bg-goldWarm hover:text-tealDark text-goldWarm font-semibold px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-2">
-                <i class="fa-solid fa-arrows-rotate"></i> Refresh List
-            </button>
+            <div class="flex gap-2">
+                <!-- NEW: Clear All Button -->
+                <button onclick="clearAllReservations()" class="bg-red-950/20 border border-red-500/30 hover:bg-red-600 hover:text-white text-red-400 font-semibold px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-trash-can"></i> Clear All Data
+                </button>
+                <button onclick="fetchReservations()" class="bg-tealLight border border-goldWarm/30 hover:bg-goldWarm hover:text-tealDark text-goldWarm font-semibold px-4 py-2 rounded-lg text-xs transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-arrows-rotate"></i> Refresh List
+                </button>
+            </div>
         </div>
     </header>
 
@@ -57,12 +63,14 @@
                             <th class="py-4 px-6 font-bold">Event Type</th>
                             <th class="py-4 px-6 font-bold">Guests</th>
                             <th class="py-4 px-6 font-bold">Status</th>
+                            <!-- NEW: Action Header -->
+                            <th class="py-4 px-6 font-bold text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="reservations-list">
                         <!-- Dynamic rows will be inserted here -->
                         <tr>
-                            <td colspan="6" class="text-center py-12 text-stone-400">Loading reservations...</td>
+                            <td colspan="7" class="text-center py-12 text-stone-400">Loading reservations...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -85,7 +93,7 @@
                 if (data.length === 0) {
                     listContainer.innerHTML = `
                         <tr>
-                            <td colspan="6" class="text-center py-12 text-stone-400">
+                            <td colspan="7" class="text-center py-12 text-stone-400">
                                 <i class="fa-regular fa-calendar text-4xl mb-2 block"></i>
                                 No reservations found yet.
                             </td>
@@ -96,37 +104,99 @@
                 // Sort reservations by date (nearest first)
                 data.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-                listContainer.innerHTML = data.map(res => `
-                    <tr class="border-b border-stone-100 hover:bg-stone-50/50 transition-colors">
-                        <td class="py-4 px-6 font-semibold text-tealDark">${escapeHtml(res.name)}</td>
-                        <td class="py-4 px-6">
-                            <a href="tel:${res.phone}" class="text-tealLight hover:underline font-medium">
-                                <i class="fa-solid fa-phone text-xs text-stone-400 mr-1"></i> ${escapeHtml(res.phone)}
-                            </a>
-                        </td>
-                        <td class="py-4 px-6 font-medium">${formatDate(res.date)}</td>
-                        <td class="py-4 px-6">
-                            <span class="px-2.5 py-1 rounded text-xs font-semibold ${getBadgeStyle(res.event_type)}">
-                                ${escapeHtml(res.event_type)}
-                            </span>
-                        </td>
-                        <td class="py-4 px-6 font-bold">${res.guests}</td>
-                        <td class="py-4 px-6">
-                            <span class="text-emerald-600 font-semibold text-xs flex items-center gap-1">
-                                <span class="h-2 w-2 rounded-full bg-emerald-500"></span> Received
-                            </span>
-                        </td>
-                    </tr>
-                `).join('');
+                listContainer.innerHTML = data.map(res => {
+                    // Match unique identifier key (database usually uses id or _id)
+                    const reservationId = res.id || res._id;
+
+                    return `
+                        <tr class="border-b border-stone-100 hover:bg-stone-50/50 transition-colors">
+                            <td class="py-4 px-6 font-semibold text-tealDark">${escapeHtml(res.name)}</td>
+                            <td class="py-4 px-6">
+                                <a href="tel:${res.phone}" class="text-tealLight hover:underline font-medium">
+                                    <i class="fa-solid fa-phone text-xs text-stone-400 mr-1"></i> ${escapeHtml(res.phone)}
+                                </a>
+                            </td>
+                            <td class="py-4 px-6 font-medium">${formatDate(res.date)}</td>
+                            <td class="py-4 px-6">
+                                <span class="px-2.5 py-1 rounded text-xs font-semibold ${getBadgeStyle(res.event_type)}">
+                                    ${escapeHtml(res.event_type)}
+                                </span>
+                            </td>
+                            <td class="py-4 px-6 font-bold">${res.guests}</td>
+                            <td class="py-4 px-6">
+                                <span class="text-emerald-600 font-semibold text-xs flex items-center gap-1">
+                                    <span class="h-2 w-2 rounded-full bg-emerald-500"></span> Received
+                                </span>
+                            </td>
+                            <!-- NEW: Action buttons cell -->
+                            <td class="py-4 px-6 text-right">
+                                <button onclick="deleteReservation('${reservationId}')" class="text-red-500 hover:text-red-700 transition-colors inline-flex items-center gap-1 font-semibold text-xs">
+                                    <i class="fa-solid fa-trash-can"></i> Cancel / Delete
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
 
             } catch (err) {
                 listContainer.innerHTML = `
                     <tr>
-                        <td colspan="6" class="text-center py-12 text-red-500">
+                        <td colspan="7" class="text-center py-12 text-red-500">
                             <i class="fa-solid fa-triangle-exclamation text-3xl mb-2 block"></i>
                             Failed to load reservations. Make sure your server is running.
                         </td>
                     </tr>`;
+            }
+        }
+
+        // NEW: Function to delete a single reservation
+        async function deleteReservation(id) {
+            if (!confirm("Are you sure you want to cancel and delete this reservation?")) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/reservations/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    alert("Reservation successfully deleted.");
+                    fetchReservations(); // Refresh table
+                } else {
+                    const errResult = await response.json();
+                    alert(`Error: ${errResult.message || 'Failed to delete record.'}`);
+                }
+            } catch (error) {
+                console.error("Network error deleting reservation:", error);
+                alert("Network error: Could not reach the server.");
+            }
+        }
+
+        // NEW: Function to clear all reservations
+        async function clearAllReservations() {
+            const doubleCheck = prompt("Warning: This will permanently delete ALL active bookings.\nType DELETE to confirm:");
+            
+            if (doubleCheck !== "DELETE") {
+                alert("Action cancelled.");
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/reservations/clear-all', {
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    alert("All reservation data has been wiped.");
+                    fetchReservations(); // Refresh table
+                } else {
+                    const errResult = await response.json();
+                    alert(`Error: ${errResult.message || 'Failed to clear database.'}`);
+                }
+            } catch (error) {
+                console.error("Network error clearing database:", error);
+                alert("Network error: Could not reach the server.");
             }
         }
 
