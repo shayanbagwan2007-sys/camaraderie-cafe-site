@@ -8,11 +8,10 @@ const PORT = process.env.PORT || 3000;
 const DATA_FILE = path.join(__dirname, 'reservations.json');
 
 // --- ADMIN CREDENTIALS ---
-// Tell the cafe owner to use these credentials to log in. They can change them below.
 const ADMIN_USERNAME = 'admin';
 const ADMIN_PASSWORD = 'camaraderie2026'; 
 
-// Simple custom Basic Authentication middleware
+// Simple Basic Authentication middleware
 const requireAuth = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
@@ -32,11 +31,11 @@ const requireAuth = (req, res, next) => {
     return res.status(401).send('Invalid username or password.');
 };
 
-// Middleware
+// Middleware setup
 app.use(cors());
 app.use(express.json());
 
-// 1. Secure the admin page and reservations API using the requireAuth middleware
+// 1. Secure the admin page and reservations API using middleware
 app.get('/admin.html', requireAuth, (req, res, next) => {
     next(); // Pass control to static file server if logged in
 });
@@ -46,7 +45,7 @@ app.get('/api/reservations', requireAuth, (req, res) => {
     res.json(reservations);
 });
 
-// --- NEW ROUTE: Delete individual reservation by ID (Secured) ---
+// 2. Route: Delete individual reservation by ID (Secured)
 app.delete('/api/reservations/:id', requireAuth, (req, res) => {
     const targetId = req.params.id;
     let reservations = readReservations();
@@ -63,20 +62,19 @@ app.delete('/api/reservations/:id', requireAuth, (req, res) => {
     }
 });
 
-// --- NEW ROUTE: Clear all reservations (Secured) ---
+// 3. Route: Clear all reservations (Secured)
 app.post('/api/reservations/clear-all', requireAuth, (req, res) => {
     writeReservations([]);
     console.log("[Admin Action] Wiped all reservation records.");
     return res.status(200).json({ message: 'All reservations cleared successfully.' });
 });
 
-// --- HOME ROUTE ---
-// Explicitly serve your index.html file when someone visits the main URL '/'
+// 4. Public Home Route (Serve customer page)
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// 2. Serve public folder files normally (unsecured) for regular visitors
+// 5. Serve public folder static files normally for visitors
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Helper to read reservations
@@ -129,5 +127,5 @@ app.post('/api/reservations', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });
